@@ -33,14 +33,19 @@ class AuthController extends Controller
             return back()->with('Error',"Account with IDNumber: $user->idnum was already verified on $dateStr. If you are the owner of this account and you did not verify this yourself, please contact any of the SSG officers for account recovery.");
         }
 
+        if($user->lname!==$request->lname) {
+            return back()->withInput()->with('Error', 'The last name does not match');
+        }
+        if($user->fname!==$request->lname) {
+            return back()->withInput()->with('Error', 'The first name does not match');
+        }
+
         $token = Str::random(15);
 
         $user->update([
             'access_token'=>$token,
             'email' => $request->email,
         ]);
-
-        return view('emails.verification', ['user'=>$user]);
 
         Mail::send('emails.verification',['user'=>$user], function($mail) use ($user) {
             $mail->to($user->email);
@@ -53,6 +58,11 @@ class AuthController extends Controller
 
     public function verifyEmail($token) {
         $user = User::where('access_token', $token)->first();
+
+        if(!$user) {
+            return redirect('/login')->with('Error','Invalid token. The attached token is invalid or has already been consumed.');
+        }
+
         return view('pages.verification-final', compact('user'));
     }
 
@@ -65,6 +75,7 @@ class AuthController extends Controller
 
         $user->password = bcrypt($request->password);
         $user->access_token = null;
+        $user->email_verified_at = now();
         $user->save();
 
         auth()->attempt([
@@ -90,6 +101,12 @@ class AuthController extends Controller
             'password'=>'string|required'
         ]);
 
+        $user = User::where('idnum', $request->idnum)->first();
+
+        if(!$user) {
+            return back()->with('Error',"The ID Number $request->idnum does not exists.");
+        }
+
         $login = auth()->attempt([
             'idnum' => $request->idnum,
             'password' => $request->password
@@ -98,7 +115,7 @@ class AuthController extends Controller
         if($login) {
             return redirect('/');
         }else {
-            return back()->with('Error','Invalid user credentials!');
+            return back()->withInput()->with('Error','Invalid user credentials!');
         }
     }
 
