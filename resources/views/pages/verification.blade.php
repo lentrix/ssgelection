@@ -39,7 +39,7 @@
                 </div>
                 <div class='alert alert-warning'>
                     It is extremely important that you enter a valid email.
-                    Otherwise, you will not receive your temporary password.
+                    Otherwise, you will not receive your verification link.
                 </div>
                 <div class="mb-3">
                     {!! Form::label('email', "Email") !!}
