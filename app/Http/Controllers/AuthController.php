@@ -64,6 +64,7 @@ class AuthController extends Controller
         $user = User::find($request->id);
 
         $user->password = bcrypt($request->password);
+        $user->access_token = null;
         $user->save();
 
         auth()->attempt([
@@ -99,5 +100,56 @@ class AuthController extends Controller
         }else {
             return back()->with('Error','Invalid user credentials!');
         }
+    }
+
+    public function forgotForm() {
+        return view('pages.forgot');
+    }
+
+    public function forgot(Request $request) {
+        $request->validate([
+            'email' => 'email|required'
+        ]);
+
+        $token = Str::random(20);
+        $user = User::where('email', $request->email)->first();
+
+        if(!$user) {
+            return back()->with('Error', "The email $request->email cannot be found in our records.");
+        }
+
+        $user->update(['access_token'=>$token]);
+
+        Mail::send('emails.forgot', ['user'=>$user], function($mail) use ($user){
+            $mail->to($user->email);
+            $mail->subject('Password Recovery');
+            $mail->from('ssg@mdc.ph','MDC SSG');
+        });
+
+        return back()->with('Info','A recovery link has been sent to ' . $user->email . '. Please check your email to proceed with the password recovery process.');
+    }
+
+    public function passwordRecoveryForm($token) {
+        $user = User::where('access_token', $token)->first();
+
+        if(!$user) {
+            return redirect('/forgot')->with('Error','The given token is invalid.');
+        }
+
+        return view('pages.forgot-password-change', compact('user'));
+    }
+
+    public function passwordRecovery(Request $request) {
+        $request->validate([
+            'password' => 'required|confirmed'
+        ]);
+
+        $user = User::findOrFail($request->id);
+
+        $user->password = bcrypt($request->password);
+        $user->access_token = null;
+        $user->save();
+
+        return redirect('/login')->with('Info','Your password has been updated. You may login now using your new password.');
     }
 }

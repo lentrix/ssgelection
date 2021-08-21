@@ -25,3 +25,7 @@ Route::post('/verification-final', [AuthController::class, 'verificationFinal'])
 Route::get('/logout',[AuthController::class, 'logout']);
 Route::get('/login', [AuthController::class,'loginForm']);
 Route::post('/login', [AuthController::class,'login']);
+Route::get('/forgot', [AuthController::class, 'forgotForm']);
+Route::post('/forgot', [AuthController::class, 'forgot']);
+Route::get('/forgot-password-change/{token}', [AuthController::class, 'passwordRecoveryForm']);
+Route::post('/forgot-password-change', [AuthController::class, 'passwordRecovery']);
