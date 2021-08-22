@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\ElectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +37,6 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/candidates', [CandidateController::class,'index']);
     Route::get('/candidates/{candidate}', [CandidateController::class,'show']);
     Route::patch('/candidates/{candidate}', [CandidateController::class,'update']);
+
+    Route::get('/election', [ElectionController::class, 'votingForm']);
 });
