@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CandidateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,10 +23,17 @@ Route::get('/verification', [AuthController::class, 'verificationForm']);
 Route::post('/verification', [AuthController::class, 'verify']);
 Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail']);
 Route::post('/verification-final', [AuthController::class, 'verificationFinal']);
-Route::get('/logout',[AuthController::class, 'logout']);
+
 Route::get('/login', [AuthController::class,'loginForm']);
 Route::post('/login', [AuthController::class,'login']);
 Route::get('/forgot', [AuthController::class, 'forgotForm']);
 Route::post('/forgot', [AuthController::class, 'forgot']);
 Route::get('/forgot-password-change/{token}', [AuthController::class, 'passwordRecoveryForm']);
 Route::post('/forgot-password-change', [AuthController::class, 'passwordRecovery']);
+
+Route::group(['middleware'=>'auth'], function() {
+    Route::get('/logout',[AuthController::class, 'logout']);
+    Route::get('/candidates', [CandidateController::class,'index']);
+    Route::get('/candidates/{candidate}', [CandidateController::class,'show']);
+    Route::patch('/candidates/{candidate}', [CandidateController::class,'update']);
+});
