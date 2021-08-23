@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('access_token')->nullable();
             $table->timestamp('voted_at')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionController;
@@ -39,4 +40,12 @@ Route::group(['middleware'=>'auth'], function() {
     Route::patch('/candidates/{candidate}', [CandidateController::class,'update']);
 
     Route::get('/election', [ElectionController::class, 'votingForm']);
+
+    Route::get('/activities', [ActivityController::class,'index']);
+    Route::get('/activities/{activity}', [ActivityController::class,'show']);
+    Route::post('/activities/{activity}/submit', [ActivityController::class, 'submitCode']);
+    Route::group(['middleware'=>'admin'], function(){
+        Route::post('/activities', [ActivityController::class,'store']);
+        Route::put('/activities/{activity}', [ActivityController::class,'update']);
+    });
 });
