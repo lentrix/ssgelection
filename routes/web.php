@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionController;
+use App\Models\ActivityCode;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,7 @@ Route::post('/verification', [AuthController::class, 'verify']);
 Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail']);
 Route::post('/verification-final', [AuthController::class, 'verificationFinal']);
 
-Route::get('/login', [AuthController::class,'loginForm']);
+Route::get('/login', [AuthController::class,'loginForm'])->name('login');
 Route::post('/login', [AuthController::class,'login']);
 Route::get('/forgot', [AuthController::class, 'forgotForm']);
 Route::post('/forgot', [AuthController::class, 'forgot']);
@@ -47,5 +48,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::group(['middleware'=>'admin'], function(){
         Route::post('/activities', [ActivityController::class,'store']);
         Route::put('/activities/{activity}', [ActivityController::class,'update']);
+        Route::get('/activities/generator/{token}', [ActivityController::class, 'codeGenerator']);
+
     });
 });

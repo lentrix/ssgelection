@@ -42,7 +42,6 @@ class ActivityController extends Controller
         $now = Carbon::now();
 
         if($now->isAfter($activity->end)) {
-            dd($now, $activity->end);
             return back()->with('Error','You cannot edit an activity that has been concluded.');
         }
 
@@ -94,5 +93,41 @@ class ActivityController extends Controller
         ]);
 
         return redirect('/activities/' . $activity->id)->with('Info','Activity code submitted.');
+    }
+
+    public function codeGenerator($token) {
+        $activity = Activity::where('token', $token)->first();
+
+        $now = Carbon::now('Asia/Manila');
+
+        if($now->isBefore($activity->start) || $now->isAfter($activity->end)) {
+            return view('activities.not-scheduled', compact('activity'));
+        }
+
+        return view('activities.code-generator', compact('activity'));
+    }
+
+    public function postCode(Request $request) {
+        $activity = Activity::where('token', $request->token)->first();
+
+        if(!$activity) {
+            return response()->json([
+                'message'=>'Invalid activity token.'
+            ],404);
+        }
+
+        $now = Carbon::now();
+
+        if($now->isBefore($activity->start) || $now->isAfter($activity->end)) {
+            return response()->json([
+                'message'=>'Activity is not scheduled at the moment.'
+            ], 403);
+        }
+
+        $code = strtoupper(Str::random(6));
+
+        return response()->json([
+            'code'=>$code
+        ],201);
     }
 }
