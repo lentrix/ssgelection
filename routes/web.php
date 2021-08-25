@@ -49,6 +49,6 @@ Route::group(['middleware'=>'auth'], function() {
         Route::post('/activities', [ActivityController::class,'store']);
         Route::put('/activities/{activity}', [ActivityController::class,'update']);
         Route::get('/activities/generator/{token}', [ActivityController::class, 'codeGenerator']);
-
+        Route::post('/activities/add-checkpoint/{activity}', [ActivityController::class, 'addCheckpoint']);
     });
 });

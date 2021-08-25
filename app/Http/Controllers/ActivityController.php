@@ -86,25 +86,43 @@ class ActivityController extends Controller
             return back()->with('Error','The code you entered ' . $request->code . ' is invalid.');
         }
 
+        $userActivityCode = UserActivityCode::where('code', $request->code)->where('user_id', auth()->user()->id)->first();
+
+        if($userActivityCode) {
+            return back()->with('Error','You already submitted this code: ' . $request->code);
+        }
+
         UserActivityCode::create([
             'user_id' => auth()->user()->id,
             'activity_id' => $activity->id,
-            'code' => $request->code
+            'code' => strtoupper($request->code)
         ]);
 
         return redirect('/activities/' . $activity->id)->with('Info','Activity code submitted.');
     }
 
-    public function codeGenerator($token) {
-        $activity = Activity::where('token', $token)->first();
+    public function addCheckpoint(Activity $activity, Request $request) {
+        $request->validate([
+            'check_time' => 'required'
+        ]);
 
-        $now = Carbon::now('Asia/Manila');
+        $date = $activity->start->format('Y-m-d');
 
-        if($now->isBefore($activity->start) || $now->isAfter($activity->end)) {
-            return view('activities.not-scheduled', compact('activity'));
+        $checkTime = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $request->check_time,'Asia/Manila');
+        $expires = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $request->check_time,'Asia/Manila')->addMinutes(5);
+
+        if($checkTime->isBefore($activity->start) || $expires->isAfter($activity->end)){
+            return back()->with('Error','Cannot add check time ' . $checkTime->format('g:i a') . '. The time interval between the check time and its expiry is not within the schedule.');
         }
 
-        return view('activities.code-generator', compact('activity'));
+        ActivityCode::create([
+            'activity_id' => $activity->id,
+            'code' => strtoupper(Str::random(6)),
+            'starts' => $checkTime,
+            'expires' => $expires
+        ]);
+
+        return redirect('/activities/' . $activity->id)->with('Info','Checkpoint added.');
     }
 
     public function postCode(Request $request) {

@@ -2,9 +2,7 @@
 
 @section('content')
 
-<div class="float-end">
-    @include('activities.update-activity-modal', compact('activity'))
-</div>
+@include('activities.update-activity-modal', compact('activity'))
 
 <h1 class="mt-3">View Activity</h1>
 <hr>
@@ -32,12 +30,13 @@
                         <th>End Time</th><td>{{$activity->end->format('g:i A')}}</td>
                     </tr>
                 </table>
-                @if(auth()->user()->is_admin)
-                <p>
-                    <strong>Generator Link: </strong><br>
-                    {{url("/activities/generator/$activity->token")}}
-                </p>
-                @endif
+                <button type="button" class="btn btn-primary d-block w-100 mt-1" data-bs-toggle="modal" data-bs-target="#updateActivityModal">
+                    Update Activity
+                </button>
+
+                <a href="{{url('/activities/attendances/' . $activity->id)}}" class="btn btn-info d-block mt-1">
+                    View Attendances
+                </a>
             </div>
         </div>
     </div>
@@ -62,10 +61,40 @@
                     </tr>
                     @foreach($userCodes as $userCode)
                     <tr>
-                        <td>{{$userCode->code}}</td>
-                        <td>{{$userCode->created_at}}</td>
+                        <td @if(!$userCode->accepted) style="text-decoration: line-through" @endif>{{$userCode->code}}</td>
+                        <td @if(!$userCode->accepted) style="text-decoration: line-through" @endif>{{$userCode->created_at->format('M d, Y g:i A')}}</td>
                     </tr>
                     @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-end">
+                    @include('activities.add-code-modal', compact('activity'))
+                </div>
+                <h3 class="card-title">Checkpoints</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Starts</th>
+                            <th>Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($activity->activityCodes as $actCode)
+                        <tr>
+                            <td>{{$actCode->code}}</td>
+                            <td>{{$actCode->starts->format('g:i a')}}</td>
+                            <td>{{$actCode->expires->format('g:i a')}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

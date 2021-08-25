@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Models\Activity;
+use App\Models\ActivityCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,15 +24,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/current', function() {
     $act = Activity::where('start','<',now())
         ->where('end','>',now())->first();
-    if($act) {
-        return response()->json([
-            'activity'=>$act
-        ],200);
-    }else {
-        return response()->json([
-            'message' => 'No active activity'
-        ],404);
-    }
-});
 
-Route::post('/activities/code', [ActivityController::class, 'postCode']);
+    $checkPoint = null;
+
+    if(!$act) {
+        return response()->json(['checkPoint'=>null]);
+    }
+
+
+    $checkPoint = ActivityCode::where('activity_id', $act->id)
+        ->where('starts','<', now())
+        ->where('expires','>', now())
+        ->first();
+
+    if(!$checkPoint) {
+        return response()->json(['checkPoint'=>null]);
+    }
+
+
+    return response()->json([
+        'checkPoint' => [
+            'code' => $checkPoint->code,
+            'starts' => $checkPoint->starts->format('g:i A'),
+            'expires' => $checkPoint->expires->format('g:i A'),
+        ]
+    ],200);
+
+});

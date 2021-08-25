@@ -17,7 +17,8 @@ class CreateActivityCodesTable extends Migration
             $table->id();
             $table->bigInteger('activity_id')->unsigned();
             $table->string('code',6);
-            $table->timestamps();
+            $table->timestamp('starts')->nullable();
+            $table->timestamp('expires')->nullable();
             $table->foreign('activity_id')->references('id')->on('activities');
         });
     }

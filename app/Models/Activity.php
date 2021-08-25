@@ -15,4 +15,8 @@ class Activity extends Model
         'start' => 'datetime',
         'end' => 'datetime',
     ];
+
+    public function activityCodes() {
+        return $this->hasMany('App\Models\ActivityCode')->orderBy('starts');
+    }
 }

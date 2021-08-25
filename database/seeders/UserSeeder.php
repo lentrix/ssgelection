@@ -23,7 +23,8 @@ class UserSeeder extends Seeder
             'dept'=>'CAST',
             'email'=>'hawkmanlentrix@gmail.com',
             'email_verified_at'=>now(),
-            'password'=>bcrypt('password123')
+            'password'=>bcrypt('password123'),
+            'is_admin' => 1
         ]);
     }
 }
