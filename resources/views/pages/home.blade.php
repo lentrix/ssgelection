@@ -2,6 +2,6 @@
 
 @section('content')
 
-<h1>Home Page</h1>
+<img src="{{asset('images/MDC Cover Photo.png')}}" class="w-100" alt="">
 
 @endsection
