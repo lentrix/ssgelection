@@ -19,13 +19,20 @@
             </li>
             @else
             <li class="nav-item">
-                <a class="nav-link" href="{{url('/candidates')}}">Candidates</a>
+                <a class="nav-link" href="{{url('/activities')}}">Activities</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('/election')}}">Election</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Election
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{url('/candidates')}}">Candidates</a></li>
+                    <li><a class="dropdown-item" href="{{url('/election')}}">Vote Now</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{url('/results')}}">Results</a></li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('/results')}}">Results</a>
+
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/logout')}}">Logout</a>
