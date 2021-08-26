@@ -22,7 +22,7 @@
                 {!! Form::open(['url'=>'/verification','method'=>'post']) !!}
 
                 <div class="mb-3">
-                    {!! Form::label('idnum', "ID Number (e.g. 001683)") !!}
+                    {!! Form::label('idnum', "ID Number (e.g. 1683 without leading zeroes)") !!}
                     {!! Form::number('idnum', null, ['class'=>'form-control text-warning']) !!}
                 </div>
                 <div class="mb-3">
