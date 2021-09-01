@@ -12,8 +12,8 @@ class ElectionController extends Controller
         $user = auth()->user();
 
         //check voting period
-        $from = Carbon::createFromFormat('Y-m-d H:i', config('app.start'));
-        $to = Carbon::createFromFormat('Y-m-d H:i', config('app.end'));
+        $from = Carbon::createFromFormat('Y-m-d H:i', config('app.election_start'));
+        $to = Carbon::createFromFormat('Y-m-d H:i', config('app.election_end'));
         $now = Carbon::now();
 
         if(!$now->isAfter($from)) {
