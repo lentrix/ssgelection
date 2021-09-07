@@ -15,15 +15,20 @@ class Candidate extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public static function getList($position, $dept=false) {
-        $cnd = static::where('position', $position);
+    public static function getByPosition($position, $dept=false) {
+        $cnd = static::where('position', $position)
+            ->join('users','users.id','candidates.user_id')
+            ->orderByRaw('users.lname, users.fname');
+
         if($dept) {
-            $cnd->whereHas('user', function($query) use ($dept) {
-                $query->where('dept', $dept);
-            });
+            $cnd->where('dept', $dept);
         }
 
-        $data = $cnd->get();
+        return $cnd->get();
+    }
+
+    public static function getList($position, $dept=false) {
+        $data = static::getByPosition($position, $dept);
 
         $list = [];
 
@@ -33,4 +38,5 @@ class Candidate extends Model
 
         return $list;
     }
+
 }

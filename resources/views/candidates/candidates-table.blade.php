@@ -1,5 +1,5 @@
 <table class="table table-bordered">
-    <tr class="bg-info text-dark">
+    <tr class="bg-info text-light">
         <th class="d-none d-lg-table-cell">Candidate ID</th>
         <th>Name</th>
         <th>Program & Year</th>
