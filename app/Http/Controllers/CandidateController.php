@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class CandidateController extends Controller
 {
     public function index() {
-        $pres = Candidate::where('position','President')->get();
-        $vps = Candidate::where('position','Vice President')->get();
-        $sens = Candidate::where('position','Senator')->get();
-        $reps = Candidate::where('position','Representative')->get();
+        $pres = Candidate::getByPosition('President');
+        $vps = Candidate::getByPosition('Vice President');
+        $sens = Candidate::getByPosition('Senator');
+        $reps = Candidate::getByPosition('Congressman');
 
         return view('candidates.index', [
             'pres' => $pres,
