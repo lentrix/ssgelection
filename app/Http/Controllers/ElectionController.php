@@ -3,11 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\User;
+use App\Models\Vote;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ElectionController extends Controller
 {
+    public function index() {
+        if(auth()->user()->voted_at !== null) {
+            return $this->voted();
+        }else {
+            return $this->votingForm();
+        }
+    }
+
+    public function voted() {
+        return view('election.voted');
+    }
+
     public function votingForm() {
         $user = auth()->user();
 
@@ -29,10 +43,10 @@ class ElectionController extends Controller
             return view('election.voted', compact('user'));
         }
 
-        $pres = Candidate::getList('President');
-        $vpres = Candidate::getList('Vice President');
-        $sens = Candidate::getList('Senator');
-        $reps = Candidate::getList('Representative', true);
+        $pres = Candidate::getByPosition('President');
+        $vpres = Candidate::getByPosition('Vice-President');
+        $sens = Candidate::getByPosition('Senator');
+        $reps = Candidate::getByPosition('Representative', $user->dept);
 
         return view('election.voting-form', [
             'user' => $user,
@@ -41,5 +55,34 @@ class ElectionController extends Controller
             'sens' => $sens,
             'reps' => $reps
         ]);
+    }
+
+    public function vote(User $user, Request $request) {
+        if($user->id !== auth()->user()->id || auth()->user()->id === $request->user_id) {
+            return back()->with('Error','Fatal Error: There is inconsistency of data.');
+        }
+
+        $pr = Candidate::where('user_id',$request->president)->first();
+        $vp = Candidate::where('user_id',$request['vice-president'])->first();
+        $sn = Candidate::whereIn('user_id', json_decode($request->senator))->get();
+        $rp = Candidate::where('user_id',$request->representative)->first();
+
+        return view('election.confirm-votes',[
+            'pr' => $pr,
+            'vp' => $vp,
+            'sn' => $sn,
+            'rp' => $rp,
+        ]);
+    }
+
+    public function confirmVote(User $user, Request $request) {
+        Vote::createOne($request['president']);
+        Vote::createOne($request['vice-president']);
+        Vote::createMany($request['senator']);
+        Vote::createOne($request['representative']);
+
+        $user->voted_at = now();
+        $user->save();
+        return redirect('/election');
     }
 }

@@ -6,39 +6,70 @@
 <hr>
 
 <div class="alert alert-info">
-    *Cast your vote with all honesty and integrity.
+    *Cast your vote with all honesty and integrity. Select your candidate by clicking on the picture.
 </div>
-{!! Form::open(['url'=>'/election', 'method'=>'post', 'id'=>'voting-form']) !!}
 
-<div class="row">
-    <div class="col-md-6">
+<form action="{{url('/vote/' . $user->id)}}" method="post" id="votation-form">
+    {{csrf_field()}}
+    <input type="hidden" name="president" id="President-field">
+    <input type="hidden" name="vice-president" id="Vice-President-field">
+    <input type="hidden" name="senator" id="Senator-field">
+    <input type="hidden" name="representative" id="Representative-field">
+    <input type="hidden" name="user_id" value="{{$user->id}}">
+</form>
 
-        <div class="mb-3 card card-body">
-            {!! Form::label("president", "President",['style'=>'font-weight: bold; font-size: 1.2em']) !!}
-            {!! Form::select("president", $pres, null, ['class'=>'form-control','placeholder'=>'Select your president']) !!}
-        </div>
-        <div class="mb-3 card card-body">
-            {!! Form::label("vice_president", "Vice President",['style'=>'font-weight: bold; font-size: 1.2em']) !!}
-            {!! Form::select("vice_president", $vpres, null, ['class'=>'form-control','placeholder'=>'Select your president']) !!}
-        </div>
-    </div>
+@include('election.single-selection',['position'=>'President','candidates'=>$pres])
+@include('election.single-selection',['position'=>'Vice President','candidates'=>$vpres])
+@include('election.single-selection',['position'=>'Senator','candidates'=>$sens])
+@include('election.single-selection',['position'=>'Representative','candidates'=>$reps])
 
-    <div class="col-md-6">
-        <div class="mb-3 card card-body">
-            {!! Form::label("", "Senator (Maximum of 6)",['style'=>'font-weight: bold; font-size: 1.2em']) !!}
-            @foreach($sens as $senId=>$sn)
-                <div class="form-check">
-                    <input type="checkbox" name="senator[]" value="{{$senId}}" id="sen_{{$senId}}" class="form-check-input">
-                    <label for="sen_{{$senId}}" class="form-check-label">{{$sn}}</label>
-                </div>
-            @endforeach
-        </div>
-    </div>
+<button class="btn btn-primary btn-lg" style="width: 300px" id="submit-button">
+    Submit Your Votes
+</button>
+<hr>
+<p id="form-value"></p>
 
-    <button class="btn btn-lg btn-primary mt-3" type="button">
-        <i class="fa fa-fingerprint"></i> Drop Your Votes!
-    </button>
-    {!! Form::close() !!}
-</div>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(()=>{
+        var form = $("#votation-form")
+
+        var senVotes = [];
+
+        $(".candidate-pic").click((ev)=>{
+            let candidateId = $(ev.target).data('candidate-id')
+            let position = $(ev.target).data('position')
+
+            if(position!=="Senator") {
+                $(".check-box-" + position).css('visibility','hidden')
+                $("#check-" + candidateId).css('visibility','visible')
+                $("#" + position + "-field").val(candidateId)
+            }else {
+                let check = $("#check-" + candidateId)
+
+                if(senVotes.includes(candidateId)) {
+                    check.css('visibility','hidden')
+                    senVotes.splice(senVotes.indexOf(candidateId),1)
+                }else {
+                    if(senVotes.length >= 6) {
+                        alert('You cannot select more than 6 senators')
+                        return
+                    }
+                    senVotes.push(candidateId)
+                    check.css('visibility','visible')
+                }
+
+                $("#Senator-field").val(JSON.stringify(senVotes))
+
+            }
+        })
+        $("#submit-button").click(()=>{
+            $("#votation-form").submit();
+        })
+    })
+</script>
 
 @endsection

@@ -40,7 +40,9 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/candidates/{candidate}', [CandidateController::class,'show']);
     Route::patch('/candidates/{candidate}', [CandidateController::class,'update']);
 
-    Route::get('/election', [ElectionController::class, 'votingForm']);
+    Route::get('/election', [ElectionController::class, 'index']);
+    Route::post('/vote/{user}', [ElectionController::class, 'vote']);
+    Route::post('/confirm-vote/{user}', [ElectionController::class, 'confirmVote']);
 
     Route::get('/activities', [ActivityController::class,'index']);
     Route::get('/activities/{activity}', [ActivityController::class,'show']);

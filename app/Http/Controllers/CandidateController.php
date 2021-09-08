@@ -9,9 +9,9 @@ class CandidateController extends Controller
 {
     public function index() {
         $pres = Candidate::getByPosition('President');
-        $vps = Candidate::getByPosition('Vice President');
+        $vps = Candidate::getByPosition('Vice-President');
         $sens = Candidate::getByPosition('Senator');
-        $reps = Candidate::getByPosition('Congressman');
+        $reps = Candidate::getByPosition('Representative');
 
         return view('candidates.index', [
             'pres' => $pres,
