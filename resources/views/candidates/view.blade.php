@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <img src="{{asset('images/unknown.png')}}" alt="Profile Image" class="w-100">
+        <img src="{{asset('images/candidates/' . $candidate->user_id . '.png')}}" alt="Profile Image" class="w-100">
     </div>
     <div class="col-md-8">
         <table class="table table-striped">
