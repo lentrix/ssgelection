@@ -18,7 +18,8 @@ class Candidate extends Model
 
     public static function getByPosition($position, $dept=false) {
         $cnd = static::where('position', $position)
-            ->join('users','users.id','candidates.user_id')
+            ->join('users','candidates.user_id','users.id')
+            ->select(['candidates.*','users.lname','users.fname','users.dept'])
             ->orderByRaw('users.lname, users.fname');
 
         if($dept) {
