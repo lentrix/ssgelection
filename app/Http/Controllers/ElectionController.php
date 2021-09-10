@@ -85,4 +85,11 @@ class ElectionController extends Controller
         $user->save();
         return redirect('/election');
     }
+
+    public function results() {
+        $result = [
+            'pr' => Candidate::count("President"),
+        ];
+        return $result;
+    }
 }
