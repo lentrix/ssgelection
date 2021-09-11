@@ -107,6 +107,10 @@ class AuthController extends Controller
             return back()->with('Error',"The ID Number $request->idnum does not exists.");
         }
 
+        if($user->email_verified_at==null) {
+            return back()->with('Error',"The account with ID $request->idnum is not yet verified.");
+        }
+
         $login = auth()->attempt([
             'idnum' => $request->idnum,
             'password' => $request->password
