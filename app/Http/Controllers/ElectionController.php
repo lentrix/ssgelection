@@ -64,7 +64,7 @@ class ElectionController extends Controller
 
         $pr = Candidate::where('user_id',$request->president)->first();
         $vp = Candidate::where('user_id',$request['vice-president'])->first();
-        $sn = Candidate::whereIn('user_id', json_decode($request->senator))->get();
+        $sn = Candidate::whereIn('user_id', $request->senator?json_decode($request->senator):[])->get();
         $rp = Candidate::where('user_id',$request->representative)->first();
 
         return view('election.confirm-votes',[
@@ -76,10 +76,22 @@ class ElectionController extends Controller
     }
 
     public function confirmVote(User $user, Request $request) {
-        Vote::createOne($request['president']);
-        Vote::createOne($request['vice-president']);
-        Vote::createMany($request['senator']);
-        Vote::createOne($request['representative']);
+
+        if($request['president']) {
+            Vote::createOne($request['president']);
+        }
+
+        if($request['vice-president']) {
+            Vote::createOne($request['vice-president']);
+        }
+
+        if($request['senator']){
+            Vote::createMany($request['senator']);
+        }
+
+        if($request['representative']){
+            Vote::createOne($request['representative']);
+        }
 
         $user->voted_at = now();
         $user->save();
@@ -87,9 +99,26 @@ class ElectionController extends Controller
     }
 
     public function results() {
+        $to = Carbon::createFromFormat('Y-m-d H:i', config('app.election_end'));
+        $now = Carbon::now();
+
+        if($now->isBefore($to) && !auth()->user()->is_admin) {
+            return view('election.on-going');
+        }
+
         $result = [
-            'pr' => Candidate::count("President"),
+            'President' => Candidate::count("President"),
+            'Vice-President' => Candidate::count("Vice-President"),
+            'Senator' => Candidate::count("Senator"),
+            'CAST Representative' => Candidate::count("Representative", 'CAST'),
+            'CABM-B Representative' => Candidate::count("Representative", 'CABM-B'),
+            'CABM-H Representative' => Candidate::count("Representative", 'CABM-H'),
+            'CCJ Representative' => Candidate::count("Representative", 'CCJ'),
+            'CON Representative' => Candidate::count("Representative", 'CON'),
+            'COE Representative' => Candidate::count("Representative", 'COE'),
         ];
-        return $result;
+
+        // dd($result);
+        return view('election.result', compact('result'));
     }
 }

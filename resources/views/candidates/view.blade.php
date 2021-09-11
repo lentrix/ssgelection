@@ -4,6 +4,9 @@
 @include('candidates.update-tagline-modal')
 @include('candidates.update-bio-modal')
 
+<a href="{{url('/candidates')}}" class="btn btn-primary btn-sm float-end">
+    <i class="fa fa-arrow-left"></i> Back to Candidates
+</a>
 <h1 class="mt-3">Candidate Profile</h1>
 <hr>
 

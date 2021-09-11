@@ -6,7 +6,9 @@
 <hr>
 
 <div class="alert alert-info">
-    *Cast your vote with all honesty and integrity. Select your candidate by clicking on the picture.
+    *Cast your vote with all honesty and integrity.
+    Select your candidate by clicking on the picture.
+    You can also deselect by clicking a previously selected candidate.
 </div>
 
 <form action="{{url('/vote/' . $user->id)}}" method="post" id="votation-form">
@@ -44,9 +46,16 @@
             let position = $(ev.target).data('position')
 
             if(position!=="Senator") {
+
                 $(".check-box-" + position).css('visibility','hidden')
-                $("#check-" + candidateId).css('visibility','visible')
-                $("#" + position + "-field").val(candidateId)
+
+                if($("#" + position + "-field").val()==candidateId) {
+                    $("#check-" + candidateId).css('visibility','hidden')
+                    $("#" + position + "-field").val(null)
+                }else {
+                    $("#check-" + candidateId).css('visibility','visible')
+                    $("#" + position + "-field").val(candidateId)
+                }
             }else {
                 let check = $("#check-" + candidateId)
 

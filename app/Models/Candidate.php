@@ -54,6 +54,9 @@ class Candidate extends Model
             ];
         }
 
+        $column = array_column($data, 'count');
+        array_multisort($column, SORT_DESC, $data);
+
         return $data;
     }
 
