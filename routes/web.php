@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionController;
+use App\Http\Controllers\RaffleController;
 use App\Models\ActivityCode;
 use Illuminate\Support\Facades\Route;
 
@@ -48,10 +49,19 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/activities', [ActivityController::class,'index']);
     Route::get('/activities/{activity}', [ActivityController::class,'show']);
     Route::post('/activities/{activity}/submit', [ActivityController::class, 'submitCode']);
+
+    Route::get('/raffles/items', [RaffleController::class, 'items']);
+    Route::post('/raffles/items', [RaffleController::class, 'store']);
+    Route::get('/raffles/winners', [RaffleController::class, 'winners']);
+    Route::get('/raffles/draw', [RaffleController::class, 'draw']);
+
     Route::group(['middleware'=>'admin'], function(){
         Route::post('/activities', [ActivityController::class,'store']);
         Route::put('/activities/{activity}', [ActivityController::class,'update']);
         Route::get('/activities/generator/{token}', [ActivityController::class, 'codeGenerator']);
         Route::post('/activities/add-checkpoint/{activity}', [ActivityController::class, 'addCheckpoint']);
+        Route::get('/code-view', function(){
+            return view('code-view');
+        });
     });
 });

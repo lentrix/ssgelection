@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function getFullNameAttribute() {
         return $this->lname . ', ' . $this->fname;
     }
+
+    public function rafflePrizes() {
+        return $this->hasMany('App\Models\RaffleWinner', 'user_id','id');
+    }
 }

@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Assistant&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <title>SSG Attendance</title>
     <style>
         body{
@@ -44,19 +45,22 @@
     </style>
 </head>
 <body>
-    <div class="label">
-        Attendance Checkpoint
-    </div>
-    <div class="code" id="code">
-        <div v-if="checkPoint">
-            <div style="font-size: 1.2em; position: absolute; top: 30px; left: 20px;">CODE:</div>
-            <div style="font-size: 3.6em; position: absolute; top: 20px; left: 100px; font-family: 'Libre Baskerville'">
-                <span @click="stop" style="cursor: pointer;">{{checkPoint.code}}</span>
+    <div id="code">
+        <div class="label" v-if="checkPoint!=null">
+            Attendance Checkpoint
+        </div>
+        <div class="code" v-if="checkPoint!=null">
+            <div v-if="checkPoint!=null">
+                <div style="font-size: 1.2em; position: absolute; top: 30px; left: 20px;">CODE:</div>
+                <div style="font-size: 3.6em; position: absolute; top: 20px; left: 100px; font-family: 'Libre Baskerville'">
+                    <span @click="stop" style="cursor: pointer;">{{checkPoint.code}}</span>
+                </div>
+                <div style="position: absolute; bottom: 5px; left: 30px; font-family: 'Assitant'; font-size: 1.5em">Scope: {{checkPoint.starts}} - {{checkPoint.expires}}</div>
             </div>
-            <div style="position: absolute; bottom: 5px; left: 30px; font-family: 'Assitant'; font-size: 1.5em">Scope: {{checkPoint.starts}} - {{checkPoint.expires}}</div>
+            <div v-if="error!=''">{{error}}</div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

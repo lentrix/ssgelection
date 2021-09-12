@@ -40,7 +40,16 @@
                     <li><a class="dropdown-item" href="{{url('/results')}}">Results</a></li>
                 </ul>
             </li>
-
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Raffles
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{url('/raffles/items')}}">Raffle Items</a></li>
+                    <li><a class="dropdown-item" href="{{url('/raffles/winners')}}">Raffle Winners</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{url('/raffles/draw')}}">Raffle Draw</a></li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/logout')}}">Logout</a>
