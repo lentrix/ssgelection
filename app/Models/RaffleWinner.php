@@ -9,14 +9,14 @@ class RaffleWinner extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'item_id', 'drawn_by'];
+    protected $fillable = ['user_id', 'raffle_prize_id', 'drawn_by'];
 
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function raffleItem() {
-        return $this->belongsTo('App\Models\RaffleItem');
+    public function rafflePrize() {
+        return $this->belongsTo('App\Models\RafflePrize');
     }
 
     public function drawnBy() {

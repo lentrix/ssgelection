@@ -53,6 +53,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/raffles/items', [RaffleController::class, 'items']);
     Route::post('/raffles/items', [RaffleController::class, 'store']);
     Route::get('/raffles/winners', [RaffleController::class, 'winners']);
+    Route::post('/raffles/winners', [RaffleController::class, 'storeWinner']);
     Route::get('/raffles/draw', [RaffleController::class, 'draw']);
 
     Route::group(['middleware'=>'admin'], function(){
