@@ -9,7 +9,7 @@ return [
      * Start time and end time of the election proper
      */
     'election_start' => '2021-09-08 08:00',
-    'election_end' => '2021-09-10 15:00',
+    'election_end' => '2021-09-15 15:00',
     'vote_key' => 'j7Diux28$hld3W',
 
     /*

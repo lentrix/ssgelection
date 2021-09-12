@@ -33,10 +33,10 @@ class AuthController extends Controller
             return back()->with('Error',"Account with IDNumber: $user->idnum was already verified on $dateStr. If you are the owner of this account and you did not verify this yourself, please contact any of the SSG officers for account recovery.");
         }
 
-        if($user->lname!==$request->lname) {
+        if($user->lname!=$request->lname) {
             return back()->withInput()->with('Error', 'The last name does not match');
         }
-        if($user->fname!==$request->lname) {
+        if($user->fname!=$request->lname) {
             return back()->withInput()->with('Error', 'The first name does not match');
         }
 
@@ -105,6 +105,10 @@ class AuthController extends Controller
 
         if(!$user) {
             return back()->with('Error',"The ID Number $request->idnum does not exists.");
+        }
+
+        if($user->email_verified_at==null) {
+            return back()->with('Error',"The account with ID $request->idnum is not yet verified.");
         }
 
         $login = auth()->attempt([

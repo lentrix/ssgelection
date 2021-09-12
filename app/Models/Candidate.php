@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Candidate extends Model
 {
@@ -38,6 +39,25 @@ class Candidate extends Model
         }
 
         return $list;
+    }
+
+    public static function count($position, $dept=null) {
+        $cnds = static::getByPosition($position, $dept);
+
+        $data = [];
+
+        foreach($cnds as $cnd) {
+            $count = Vote::where('candidate_id', $cnd->id)->count();
+            $data[] = [
+                'candidate' => $cnd->user->fullName,
+                'count' => $count
+            ];
+        }
+
+        $column = array_column($data, 'count');
+        array_multisort($column, SORT_DESC, $data);
+
+        return $data;
     }
 
 }

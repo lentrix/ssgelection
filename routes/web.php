@@ -43,6 +43,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/election', [ElectionController::class, 'index']);
     Route::post('/vote/{user}', [ElectionController::class, 'vote']);
     Route::post('/confirm-vote/{user}', [ElectionController::class, 'confirmVote']);
+    Route::get('/results', [ElectionController::class, 'results']);
 
     Route::get('/activities', [ActivityController::class,'index']);
     Route::get('/activities/{activity}', [ActivityController::class,'show']);

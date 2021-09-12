@@ -7,8 +7,8 @@
             <img src="{{asset('images/candidates/' . $c->user_id . '.png')}}" alt="" class="card-img-top">
             <div class="card-header p-0 text-center bg-info text-white">{{$c->position}}</div>
             <div class="card-body p-2">
-                <div style="line-height: 0.95em">
-                    <a href="{{url('/candidates/' . $c->id)}}">
+                <div style="line-height: 0.98em">
+                    <a href="{{url('/candidates/' . $c->id)}}" class="nav-link p-1">
                     <strong style="font-size: 1.2em">{{$c->user->lname}}</strong> <br>
                     {{$c->fname}} <br>
                     {{$c->user->dept}} <br>
