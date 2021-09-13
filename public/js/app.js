@@ -4,6 +4,7 @@ new Vue({
         checkPoint: {},
         interval: null
     },
+    error: '',
     methods: {
         async getCode() {
             await axios.get('http://localhost:8000/api/current')
@@ -13,7 +14,7 @@ new Vue({
                 }
             })
             .catch(error=>{
-                console.log(error)
+                this.error = error
             })
         },
         stop() {
@@ -23,6 +24,6 @@ new Vue({
     },
     created() {
         this.getCode()
-        this.interval = setInterval(this.getCode, 60000)
+        this.interval = setInterval(this.getCode, 30000)
     }
 })

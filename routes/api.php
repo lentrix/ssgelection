@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Models\Activity;
 use App\Models\ActivityCode;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,4 +51,10 @@ Route::get('/current', function() {
         ]
     ],200);
 
+});
+
+
+Route::get('/draw-list/{all}', function($all) {
+    $users = User::orderBy('lname')->orderBy('fname')->get();
+    return response()->json($users);
 });
