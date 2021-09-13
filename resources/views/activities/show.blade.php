@@ -30,6 +30,7 @@
                         <th>End Time</th><td>{{$activity->end->format('g:i A')}}</td>
                     </tr>
                 </table>
+                @if(auth()->user()->is_admin)
                 <button type="button" class="btn btn-primary d-block w-100 mt-1" data-bs-toggle="modal" data-bs-target="#updateActivityModal">
                     Update Activity
                 </button>
@@ -37,6 +38,7 @@
                 <a href="{{url('/activities/attendances/' . $activity->id)}}" class="btn btn-info d-block mt-1">
                     View Attendances
                 </a>
+                @endif
             </div>
         </div>
     </div>
@@ -69,6 +71,8 @@
             </div>
         </div>
     </div>
+
+    @if(auth()->user()->is_admin)
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
@@ -99,5 +103,6 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
