@@ -10,6 +10,10 @@
                 {!! Form::label('item', 'Select Raffle Item') !!}
                 {!! Form::select('item', $raffleItems, null, ['class'=>'form-control','placeholder'=>'Select Raffle Item']) !!}
             </div>
+            <div class="mb-3">
+                {!! Form::label('activity', 'Filter Activity Attendance') !!}
+                {!! Form::select('activity', $activities, null, ['class'=>'form-control','placeholder'=>'Select Activity','id'=>'form-activity']) !!}
+            </div>
             {!! Form::hidden('user_id',null, ['id'=>'user_id']) !!}
             <div class="mb-3">
                 <input type="checkbox" id="include-all" unchecked="true">
@@ -44,7 +48,15 @@
 
         $(".draw-button").click(function(){
             var userList = null
-            $.get('http://localhost:8000/api/draw-list/0', function(data, status) {
+            var url = 'http://localhost:8000/api/draw-list'
+            var all = 0
+            var activityId = $("#form-activity").val() ? $("#form-activity").val() : 0
+
+            if($("#include-all").prop('checked')==true) {
+                all = 1
+            }
+
+            $.get(url + "/" + all + "/" + activityId, function(data, status) {
                 userList = data
             })
 

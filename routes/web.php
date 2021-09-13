@@ -51,12 +51,14 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/activities/{activity}/submit', [ActivityController::class, 'submitCode']);
 
     Route::get('/raffles/items', [RaffleController::class, 'items']);
-    Route::post('/raffles/items', [RaffleController::class, 'store']);
     Route::get('/raffles/winners', [RaffleController::class, 'winners']);
-    Route::post('/raffles/winners', [RaffleController::class, 'storeWinner']);
-    Route::get('/raffles/draw', [RaffleController::class, 'draw']);
 
     Route::group(['middleware'=>'admin'], function(){
+        Route::get('/raffles/draw', [RaffleController::class, 'draw']);
+        Route::post('/raffles/winners', [RaffleController::class, 'storeWinner']);
+        Route::post('/raffles/items', [RaffleController::class, 'store']);
+        Route::put('/raffles/items', [RaffleController::class, 'updateItem']);
+
         Route::post('/activities', [ActivityController::class,'store']);
         Route::put('/activities/{activity}', [ActivityController::class,'update']);
         Route::get('/activities/generator/{token}', [ActivityController::class, 'codeGenerator']);

@@ -54,7 +54,18 @@ Route::get('/current', function() {
 });
 
 
-Route::get('/draw-list/{all}', function($all) {
-    $users = User::orderBy('lname')->orderBy('fname')->get();
-    return response()->json($users);
+Route::get('/draw-list/{all}/{activity}', function($all=0, $activityId=0) {
+    $users = User::orderBy('lname')->orderBy('fname');
+
+    if(!$all) {
+        $users->whereDoesntHave('rafflePrizes');
+    }
+
+    if($activityId) {
+        $users->whereHas('userActivityCodes', function($query) use ($activityId) {
+            $query->where('activity_id', $activityId);
+        });
+    }
+
+    return response()->json($users->get());
 });

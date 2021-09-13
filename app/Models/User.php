@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function rafflePrizes() {
         return $this->hasMany('App\Models\RaffleWinner', 'user_id','id');
     }
+
+    public function userActivityCodes() {
+        return $this->hasMany('App\Models\UserActivityCode');
+    }
 }
