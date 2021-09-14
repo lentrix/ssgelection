@@ -47,6 +47,8 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/results', [ElectionController::class, 'results']);
 
     Route::get('/activities', [ActivityController::class,'index']);
+    Route::get('/activities/summary', [ActivityController::class, 'summary']);
+    Route::get('/activities/individual-report', [ActivityController::class, 'individualReport']);
     Route::get('/activities/{activity}', [ActivityController::class,'show']);
     Route::post('/activities/{activity}/submit', [ActivityController::class, 'submitCode']);
 

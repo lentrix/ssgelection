@@ -24,9 +24,9 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{{url('/activities')}}">Activities</a></li>
-                    <li><a class="dropdown-item" href="{{url('/individual-report')}}">Individual Report</a></li>
+                    <li><a class="dropdown-item" href="{{url('/activities/individual-report')}}">Individual Report</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{url('/activity-summary')}}">Activity Summary</a></li>
+                    <li><a class="dropdown-item" href="{{url('/activities/summary')}}">Activity Summary</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

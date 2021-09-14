@@ -148,4 +148,12 @@ class ActivityController extends Controller
             'code'=>$code
         ],201);
     }
+
+    public function summary() {
+        return view('activities.summary');
+    }
+
+    public function individualReport() {
+        return view('activities.individual-report');
+    }
 }
