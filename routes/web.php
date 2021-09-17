@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\RaffleController;
+use App\Http\Controllers\UserController;
 use App\Models\ActivityCode;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,13 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('/raffles/winners', [RaffleController::class, 'winners']);
 
     Route::group(['middleware'=>'admin'], function(){
+        Route::get('/users', [UserController::class, 'index']);
+        Route::patch('/users/{user}', [UserController::class, 'update']);
+        Route::get('/users/edit/{user}', [UserController::class, 'edit']);
+        Route::post('/users', [UserController::class, 'store']);
+        Route::post('/users/search', [UserController::class, 'search']);
+        Route::get('/users/{user}', [UserController::class, 'show']);
+
         Route::get('/raffles/draw', [RaffleController::class, 'draw']);
         Route::post('/raffles/winners', [RaffleController::class, 'storeWinner']);
         Route::post('/raffles/items', [RaffleController::class, 'store']);

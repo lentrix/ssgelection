@@ -51,6 +51,11 @@
                     <li><a class="dropdown-item" href="{{url('/raffles/draw')}}">Raffle Draw</a></li>
                 </ul>
             </li>
+            @if(auth()->user()->is_admin)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('/users')}}">Users</a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/logout')}}">Logout</a>
             </li>
