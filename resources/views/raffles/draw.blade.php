@@ -58,18 +58,19 @@
 
             $.get(url + "/" + all + "/" + activityId, function(data, status) {
                 userList = data
+
+                var count = 40
+                var rnd = setInterval(function(){
+                    user = userList[Math.floor(Math.random()*userList.length)]
+                    $("#winner").text(user.lname + ", " + user.fname)
+                    $("#program-year").text(user.program + " - " + user.year)
+                    $("#user_id").val(user.id)
+                    if(--count == 0) {
+                        clearInterval(rnd)
+                    }
+                },100)
             })
 
-            var count = 40
-            var rnd = setInterval(function(){
-                user = userList[Math.floor(Math.random()*userList.length)]
-                $("#winner").text(user.lname + ", " + user.fname)
-                $("#program-year").text(user.program + " - " + user.year)
-                $("#user_id").val(user.id)
-                if(--count == 0) {
-                    clearInterval(rnd)
-                }
-            },100)
         })
 
         $("#accept").click(function(){
