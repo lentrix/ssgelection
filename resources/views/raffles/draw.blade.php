@@ -48,7 +48,7 @@
 
         $(".draw-button").click(function(){
             var userList = null
-            var url = 'http://localhost:8000/api/draw-list'
+            var url = '/api/draw-list'
             var all = 0
             var activityId = $("#form-activity").val() ? $("#form-activity").val() : 0
 
