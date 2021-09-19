@@ -60,6 +60,12 @@
                 userList = data
 
                 var count = 40
+
+                if(userList.length==0) {
+                    alert('There are no qualified students.')
+                    return
+                }
+
                 var rnd = setInterval(function(){
                     user = userList[Math.floor(Math.random()*userList.length)]
                     $("#winner").text(user.lname + ", " + user.fname)
