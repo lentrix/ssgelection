@@ -2,9 +2,9 @@ new Vue({
     el:'#code',
     data: {
         checkPoint: {},
-        interval: null
+        interval: null,
+        error: '',
     },
-    error: '',
     methods: {
         async getCode() {
             await axios.get('/api/current')
