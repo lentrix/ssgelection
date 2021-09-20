@@ -21,4 +21,8 @@ class ActivityCode extends Model
     public function Activity() {
         return $this->belongsTo('App\Models\Activity');
     }
+
+    public function getSubmissionCountAttribute() {
+        return UserActivityCode::where('code', $this->code)->count();
+    }
 }

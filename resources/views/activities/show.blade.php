@@ -86,16 +86,16 @@
                     <thead>
                         <tr>
                             <th>Code</th>
-                            <th>Starts</th>
-                            <th>Expires</th>
+                            <th>Scope</th>
+                            <th>Count</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($activity->activityCodes as $actCode)
                         <tr>
                             <td>{{$actCode->code}}</td>
-                            <td>{{$actCode->starts->format('g:i a')}}</td>
-                            <td>{{$actCode->expires->format('g:i a')}}</td>
+                            <td>{{$actCode->starts->format('g:i a')}} - {{$actCode->expires->format('g:i a')}}</td>
+                            <td class="text-center">{{$actCode->submissionCount}}</td>
                         </tr>
                         @endforeach
                     </tbody>

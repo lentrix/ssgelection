@@ -11,8 +11,8 @@ class UserActivityCode extends Model
 
     protected $fillable = ['user_id', 'activity_id', 'code'];
 
-    public function activityCode() {
-        return $this->belongsTo('App\Models\ActivityCode');
+    public function activity() {
+        return $this->belongsTo('App\Models\Activity');
     }
 
     public function getAcceptedAttribute() {
@@ -20,5 +20,9 @@ class UserActivityCode extends Model
             ->where('code', $this->code)->first();
 
         return $activityCode && $activityCode->starts->isBefore($this->created_at) && $activityCode->expires->isAfter($this->created_at);
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
     }
 }
