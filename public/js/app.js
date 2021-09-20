@@ -13,7 +13,7 @@ new Vue({
                     this.checkPoint = response.data.checkPoint
                 }
             })
-            .catch(error=>{
+            .catch((error)=>{
                 this.error = error
             })
         },
