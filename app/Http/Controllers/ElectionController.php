@@ -77,6 +77,10 @@ class ElectionController extends Controller
 
     public function confirmVote(User $user, Request $request) {
 
+        if($user->voted_at) {
+            return redirect('/election')->with('Error','Our records indicate that you have already voted.');
+        }
+
         if($request['president']) {
             Vote::createOne($request['president']);
         }
