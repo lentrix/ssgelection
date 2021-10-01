@@ -109,8 +109,7 @@ class ActivityController extends Controller
         $date = $activity->start->format('Y-m-d');
 
         $checkTime = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $request->check_time,'Asia/Manila');
-        $expires = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $request->check_time,'Asia/Manila')->addMinutes(10);
-
+        $expires = Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $request->check_time,'Asia/Manila')->addMinutes(5);
         if($checkTime->isBefore($activity->start) || $expires->isAfter($activity->end)){
             return back()->with('Error','Cannot add check time ' . $checkTime->format('g:i a') . '. The time interval between the check time and its expiry is not within the schedule.');
         }
