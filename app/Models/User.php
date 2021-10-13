@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function userActivityCodes() {
         return $this->hasMany('App\Models\UserActivityCode');
     }
+
+    public function views() {
+        return $this->hasMany('App\Model\Views');
+    }
 }

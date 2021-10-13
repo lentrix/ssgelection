@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Video extends Model
+class View extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,11 @@ class Video extends Model
         'created_at' => 'datetime',
     ];
 
-    public function viewableEvent() {
-        return $this->belongsTo('App\Models\ViewableEvent');
+    public function video() {
+        return $this->belongsTo('App\Models\Video');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
     }
 }
