@@ -13,7 +13,8 @@
 
             @foreach($videos as $video)
 
-            <a href='{{url("/videos/$video->id")}}' class="card mb-3" style="width: 200px; text-decoration:none">
+            <a href='{{url("/videos/$video->id")}}' class="card mb-3 d-relative" style="width: 200px; text-decoration:none">
+                <span class="badge bg-success text-white position-absolute ms-1 mt-1 rounded-pil"><i class="fa fa-eye"></i> {{$video->viewCount}}</span>
                 <img src="https://img.youtube.com/vi/{{$video->video_id}}/0.jpg" alt="Thumbnail" class="card-image-top">
                 <div class="card-body">
                     <h5 class="card-title">{{$video->title}}</h5>

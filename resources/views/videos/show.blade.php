@@ -16,6 +16,17 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
         <hr>
+        <div class="text-end" style='font-size: 1.1em'>
+            <div class="badge bg-primary rounded-pill">
+                <i class="fa fa-calendar"></i> {{$video->created_at->format('F d, Y g:i A')}}
+            </div>
+            <div class="badge bg-success rounded-pill">
+                <i class="fa fa-eye"></i> {{$video->viewCount}} Views
+            </div>
+            <div class="badge bg-info rounded-pill">
+                <i class="fa fa-tag"></i> {{$video->tags}}
+            </div>
+        </div>
         <p>{{$video->description}}</p>
 
         {!! Form::hidden("user_id", auth()->user()->id) !!}
