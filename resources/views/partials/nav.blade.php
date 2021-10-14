@@ -30,6 +30,18 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
+                <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Videos</a>
+                <ul class="dropdown-menu">
+                    @foreach(\App\Models\ViewableEvent::orderBy('title')->get() as $ve)
+                        <li><a href='{{url("/viewable-events/$ve->id/0")}}' class="dropdown-item">{{$ve->title}}</a></li>
+                    @endforeach
+                    @if(auth()->user()->is_admin)
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="{{url('/viewable-events')}}" class="dropdown-item">Viewable Events</a></li>
+                    @endif
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Election
                 </a>

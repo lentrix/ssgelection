@@ -13,6 +13,8 @@
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
+    @yield('head-scripts')
+
     <title>{{config('app.name')}}</title>
 </head>
 <body>

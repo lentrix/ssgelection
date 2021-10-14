@@ -9,6 +9,8 @@ class Video extends Model
 {
     use HasFactory;
 
+    protected $fillable =['title','video_id','description','tags','viewable_event_id'];
+
     protected $casts = [
         'created_at' => 'datetime',
     ];

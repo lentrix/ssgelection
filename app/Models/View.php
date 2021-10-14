@@ -9,6 +9,8 @@ class View extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'video_id'];
+
     protected $casts = [
         'created_at' => 'datetime',
     ];
