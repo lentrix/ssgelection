@@ -36,10 +36,10 @@
     <div class="col-md-3">
         @foreach($videos as $video)
 
-            <a href='{{url("/videos/$video->id")}}' class="card mb-3" style="width: 100%; text-decoration:none">
+            <a href='{{url("/videos/$video->id")}}' class="card border-dark mb-3" style="width: 100%; text-decoration:none">
                 <img src="https://img.youtube.com/vi/{{$video->video_id}}/0.jpg" alt="Thumbnail" class="card-image-top">
                 <div class="card-body">
-                    <h5 class="card-title">{{$video->title}}</h5>
+                    <h5 class="card-title" style="font-size: 1.2em; color: #333">{{$video->title}}</h5>
                 </div>
             </a>
 
