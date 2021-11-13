@@ -19,7 +19,7 @@ class UserActivityCode extends Model
         $activityCode = ActivityCode::where('activity_id', $this->activity_id)
             ->where('code', $this->code)->first();
 
-        return $activityCode && $activityCode->starts->isBefore($this->created_at) && $activityCode->expires->isAfter($this->created_at);
+        return $activityCode && $activityCode->starts->isBefore($this->created_at->addMinute()) && $activityCode->expires->isAfter($this->created_at);
     }
 
     public function user() {
