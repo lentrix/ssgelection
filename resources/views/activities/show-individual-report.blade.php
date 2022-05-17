@@ -6,7 +6,8 @@
     <i class="fa fa-arrow-left"></i> Back
 </a>
 
-<h1 class="mt-3">Individual Report</h1>
+<h1 class="mt-3 mb-0">Individual Report</h1>
+<h3>Student: {{$user->lname}}, {{$user->fname}} {{$user->program}}-{{$user->year}}</h3>
 <hr>
 
 <div class="three-grid">
