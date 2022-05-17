@@ -22,6 +22,13 @@ class ActivityCode extends Model
         return $this->belongsTo('App\Models\Activity');
     }
 
+    public function check(User $user) {
+        return UserActivityCode::where('user_id',$user->id)
+            ->where('activity_id', $this->activity_id)
+            ->where('code', $this->code)
+            ->first();
+    }
+
     public function getSubmissionCountAttribute() {
         return UserActivityCode::where('code', $this->code)->count();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\User;
 use App\Models\ActivityCode;
 use App\Models\UserActivityCode;
 use Carbon\Carbon;
@@ -154,5 +155,13 @@ class ActivityController extends Controller
 
     public function individualReport() {
         return view('activities.individual-report');
+    }
+
+    public function showIndividualReport(User $user) {
+
+        return view('activities.show-individual-report',[
+            'user' => $user,
+            'activities' => Activity::orderBy('start')->get()
+        ]);
     }
 }
