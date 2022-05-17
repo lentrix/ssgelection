@@ -69,3 +69,11 @@ Route::get('/draw-list/{all}/{activity}', function($all=0, $activityId=0) {
 
     return response()->json($users->get());
 });
+
+Route::get('/search-user/{key}', function($key) {
+    $users = User::where('lname','like',"%$key%")
+        ->orWhere('fname','like',"%$key%")
+        ->orderBy('lname')->orderBy('fname')
+        ->get();
+    return response()->json($users);
+});

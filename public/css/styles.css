@@ -1,1 +1,15 @@
 /* Custom Styles */
+
+.three-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.three-grid>div{
+    min-height: 200px;
+}
+
+.striked {
+    text-decoration: line-through;
+}
